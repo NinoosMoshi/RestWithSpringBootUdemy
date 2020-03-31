@@ -1,0 +1,44 @@
+Negotiation :
+
+
+1- pom.xml
+ 
+ <!-- enable you to convert to XML -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+		
+	
+2- make a new package com.ninos.config and a class WebConfig.java
+
+
+@Configuration
+@EnableWebMvc
+public class WebConfig implements WebMvcConfigurer {
+	
+	@Override
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+		
+		configurer.favorParameter(false)
+		          .ignoreAcceptHeader(false)                        // do not accept header
+		          .defaultContentType(MediaType.APPLICATION_JSON)   // it is meaning default type will be JSON
+		          .mediaType("json", MediaType.APPLICATION_JSON)    // you can make a project JSON
+		          .mediaType("xml",MediaType.APPLICATION_XML );     // you can make a project XML
+		
+	}
+
+}	
+
+
+3- controller:
+add to the mapping
+    1- produces = {"application/json","application/xml" }  // used with get and it's meaning you will get data by JSON and XML
+    2- consumes = {"application/json","application/xml" }  // used with post and put and it's meaning you will send data to the user by JSON and XML
+
+
+
+
+
+	
+		
