@@ -1,0 +1,83 @@
+HATEOAS provide link of each request and that's help developer to rum an application.
+ex:
+http://localhost:8080/api/person/v1/1     // api/person/v1 is request mapping for the controller class . /1 is the number of id 
+result is:
+{
+    "id": 1,
+    "firstName": "ninos",
+    "lastName": "moshi",
+    "address": "chester ave,niles",
+    "gender": "male",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/api/person/v1/1"
+
+
+another developer will know how to run application because he has a link :  "href": "http://localhost:8080/api/person/v1/1" 
+
+
+
+steps:
+1- add HATEOAS dependency into pom.xml
+
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-hateoas -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-hateoas</artifactId>
+		</dependency>cy>
+		
+		
+2-	extends class from RepresentationModel<ClassName>	
+@Getter
+@Setter
+@Entity
+@Table(name="person")
+public class Person extends RepresentationModel<Person> implements Serializable {
+
+}
+
+
+3- go to the main Application and add tow annotations : @EnableAutoConfiguration and @ComponentScan
+@SpringBootApplication
+@EnableAutoConfiguration
+@ComponentScan
+public class SpringRestCalculateApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringRestCalculateApplication.class, args);
+	}
+
+}
+
+
+4- go to the controller and put :
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+@GetMapping(value="/{id}",produces = {"application/json","application/xml" ,"application/x-yaml"})      
+	public Person findId(@PathVariable("id") Long id) {
+		Person persons = services.findByPersonId(id);
+		
+		persons.add(linkTo(methodOn(PersonController.class).findId(id)).withSelfRel());
+		return persons;
+	}
+	
+	
+	
+5- run application and go to the postman:
+http://localhost:8080/api/person/v1/1
+
+{
+    "id": 1,
+    "firstName": "ninos",
+    "lastName": "moshi",
+    "address": "chester ave,niles",
+    "gender": "male",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/api/person/v1/1"
+        }
+    }
+}	
+
+
+
