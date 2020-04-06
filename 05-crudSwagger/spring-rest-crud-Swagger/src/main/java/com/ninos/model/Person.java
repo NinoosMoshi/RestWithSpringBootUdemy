@@ -9,20 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name="person")
-public class Person extends RepresentationModel<Person> implements Serializable {
+public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

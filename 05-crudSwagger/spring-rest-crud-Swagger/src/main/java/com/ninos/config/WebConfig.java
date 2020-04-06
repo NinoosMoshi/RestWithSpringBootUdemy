@@ -12,6 +12,8 @@ import com.ninos.convertToYaml.ConvertHttpToYaml;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+	
+	
 
 	private static final MediaType MEDIA_TYPE_YAML = MediaType.valueOf("application/x-yaml");
 
@@ -20,9 +22,31 @@ public class WebConfig implements WebMvcConfigurer {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+
+		// go to the postman
+		// Headers : key:accept value:application/json or xml
+
+		/*
+		 * http://localhost:8080/person.xml
+		 * 
+		 * configurer.favorParameter(false) .ignoreAcceptHeader(false)
+		 * .defaultContentType(MediaType.APPLICATION_JSON) .mediaType("json",
+		 * MediaType.APPLICATION_JSON) .mediaType("xml",MediaType.APPLICATION_XML );
+		 */
+
+		/*
+		 * http://localhost:8080/person?mediaType=xml
+		 * 
+		 * configurer.favorPathExtension(false) .favorParameter(true)
+		 * .parameterName("mediaType") .ignoreAcceptHeader(true)
+		 * .useRegisteredExtensionsOnly(false)
+		 * .defaultContentType(MediaType.APPLICATION_JSON) .mediaType("json",
+		 * MediaType.APPLICATION_JSON) .mediaType("xml", MediaType.APPLICATION_XML);
+		 */
+
+		
 		  
 		  
 		  configurer.favorPathExtension(false) 

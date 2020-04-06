@@ -1,5 +1,4 @@
 package com.ninos.controller;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
 
@@ -18,49 +17,32 @@ import com.ninos.model.Person;
 import com.ninos.service.PersonService;
 
 @RestController
-@RequestMapping("/api/person/v1")
+@RequestMapping("/person")
 public class PersonController {
 	
+	@Autowired
 	private PersonService services;
 	
-	
-	@Autowired
-	public PersonController(PersonService services) {
-		this.services = services;
-	}
-
-
-	@GetMapping(produces = {"application/json","application/xml","application/x-yaml" })
+	@GetMapping
 	public List<Person> findPersons() {
-		List<Person> personsAll = services.findAllPersons();
-		personsAll.stream().forEach(p -> p.add(linkTo(methodOn(PersonController.class).findId(p.getId())).withSelfRel()));
-		return personsAll;
-		
-		
+		return services.findAllPersons();
 	}
 	
 		
-	@GetMapping(value="/{id}",produces = {"application/json","application/xml" ,"application/x-yaml"})      
+	@GetMapping("/{id}")      
 	public Person findId(@PathVariable("id") Long id) {
-		Person persons = services.findByPersonId(id);
-		
-		persons.add(linkTo(methodOn(PersonController.class).findId(id)).withSelfRel());
-		return persons;
+		return services.findByPersonId(id);
 	}
 	
-	@PostMapping(produces = {"application/json","application/xml","application/x-yaml" },consumes = {"application/json","application/xml" ,"application/x-yaml"})
+	@PostMapping
 	public Person create(@RequestBody Person person) {
-		Person persons = services.createPerson(person);
-		persons.add(linkTo(methodOn(PersonController.class).findId(persons.getId())).withSelfRel());
-		return persons;
+		return services.createPerson(person);
 	}
 	
 	
-	@PutMapping(produces = {"application/json","application/xml","application/x-yaml" },consumes = {"application/json","application/xml" ,"application/x-yaml"})
+	@PutMapping
 	public Person update(@RequestBody Person person) {
-		Person persons = services.updatePerson(person);
-		persons.add(linkTo(methodOn(PersonController.class).findId(persons.getId())).withSelfRel());
-		return persons;
+		return services.updatePerson(person);
 	}
 	
 	@DeleteMapping("/{id}") 
