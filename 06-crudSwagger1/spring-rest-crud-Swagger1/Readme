@@ -1,0 +1,4 @@
+Add new Entity Book .
+it is same just change Person with Book , and person with book : in Class Entity,repository , service , controller
+and take a look in localhost:8080/swagger-ui.html
+you will notice there is tow model and controller : Person and Book
